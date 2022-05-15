@@ -28,7 +28,13 @@ def register():
         elif username_exists:
             flash('User with this username already exists',category ='error')
         elif password1 != password2:
-            flash('passwords don\'t match',category ='error')    
+            flash('passwords don\'t match',category ='error') 
+        else: 
+            new_user = User(email=email,username=username,password=password1)   
+            db.session.add(new_user)
+            db.session.commit()  
+            flash('user has been created') 
+            return redirect('main.index')
              
     return render_template('auth/register.html')
 
