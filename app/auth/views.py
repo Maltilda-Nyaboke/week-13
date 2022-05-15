@@ -6,6 +6,9 @@ from .import auth
 
 @auth.route('/register',methods = ['GET','POST'])
 def register():
+    email = request.form.get('email')
     username = request.form.get('username')
-    print(username)
-    return render_template('register.html')
+    password1 = request.form.get('password1')
+    password2 = request.form.get('password2')
+    
+    return render_template('auth/register.html')
