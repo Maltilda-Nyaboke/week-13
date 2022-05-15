@@ -4,6 +4,15 @@ from .. import db
 from .import auth
 
 
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    email = request.form.get('email')
+    username = request.form.get('username')
+    password = request.form.get('password')
+    return render_template('auth/login.html')  
+
+
+
 @auth.route('/register',methods = ['GET','POST'])
 def register():
     email = request.form.get('email')
@@ -12,3 +21,8 @@ def register():
     password2 = request.form.get('password2')
     
     return render_template('auth/register.html')
+
+@auth.route('/')
+def logout():
+    logout_user()
+    return render_template('main.index')
