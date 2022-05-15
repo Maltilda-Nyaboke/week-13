@@ -47,14 +47,14 @@
           <a class="nav-link" style= "margin-right:30px"
             aria-haspopup="true" aria-expanded="false">
             <li class="nav-item">
-              <a  class="btn btn-link px-3 me-2" href="#" style= 'margin-right:10px; color:white;text-decoration: none;' target>Home</a>
+              <a  class="btn btn-link px-3 me-2" href="#" style= 'margin-right:10px;margin-top:-20px; color:#6D2936;text-decoration: none;' target>Home</a>
           </li>
           <li class="nav-item">
-            <a  class="btn btn-link px-3 me-2" href="#" style= 'margin-right:30px;color:white;text-decoration: none;'>Pitches</a>
+            <a  class="btn btn-link px-3 me-2" href="#" style= 'margin-right:30px;color:#6D2936;text-decoration: none;'>Blogs</a>
         </li>
         <a href="#" style="margin-left:20px;"><strong>{{current_user.username}}</strong> </a>
 
-          <a class="dropdown-item d-inline" href="#" style="background-color: #4A675A;color: white; height: fit-content; width:fit-content;margin-left: 60px;margin-top: 40px;"> Log out</a>
+          <a class="dropdown-item d-inline" href="{{ url_for('auth.login')}}" style="background-color: #F3654A;color: white; height: fit-content; width:fit-content;margin-left: 60px;margin-top: 40px;"> Log out</a>
         </li>
           {% else %}
           <li class="nav-item">
@@ -64,7 +64,7 @@
               <a  class="btn btn-link px-3 me-2" href="#" style= 'margin-right:30px;color:#6D2936;text-decoration: none;'>Blogs</a>
           </li>
           <li class="nav-item">
-                  <a style= 'margin-right:30px;color:white;background-color: #F3654A;' class="btn" href="{{ url_for('auth.register')}}">Sign Up</a>
+                  <a style= 'margin-right:30px;color:white;background-color: #F3654A;' class="btn" href="{{ url_for('auth.login')}}">Sign Up</a>
               </li>
             {%endif%}
         </ul>
