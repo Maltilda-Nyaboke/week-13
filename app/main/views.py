@@ -30,4 +30,12 @@ def delete_blog(id):
         db.session.delete(blog)
         db.session.commit()
 
+@main.route('/blogs/<username>')
+@login_required
+def blogs(username): 
+    user = User.query.filter_by(username=username).first()
+    blogs=Blog.query.filter_by(username=username).all()
+    return render_template('blog_display.html',user= current_user,blogs=blogs)
+       
+
   
