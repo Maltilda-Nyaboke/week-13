@@ -7,3 +7,7 @@ from flask_login import login_required
 @main.route('/')
 def index():
     return render_template('index.html')
+
+@main.route('/new_blog <id>',methods=['POST', 'GET']) 
+@login_required
+def new_blog(id):   
