@@ -34,8 +34,9 @@ def delete_blog(id):
 @login_required
 def blogs(username): 
     user = User.query.filter_by(username=username).first()
-    blogs=Blog.query.filter_by(username=username).all()
-    return render_template('blog_display.html',user= current_user,blogs=blogs)
+    blogs=Blog.query.filter_by(writer=user.id).all()
+
+    return render_template('blog_display.html',user= current_user,blogs=blogs,username=username)
        
 
   
