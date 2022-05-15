@@ -5,8 +5,10 @@
     {% for blog in blogs %}
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <a href="/blog/{{blog.user.username}}">{{blog.user.username}}</a>
+            <a href="/blog_display/{{blog.user.username}}">{{blog.user.username}}</a>
         </div>
+        <div class="card-body">{{blog.blog}}</div>
+        <div class="card-footer text-muted"></div>
     </div>
     {% endfor%}
 </div>
