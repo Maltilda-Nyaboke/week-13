@@ -44,9 +44,9 @@ def register():
             new_user = User(email=email,username=username,password=password1)   
             db.session.add(new_user)
             db.session.commit()
-            logout_user(new_user,remember=True)  
+            login_user(new_user,remember=True)  
             flash('user has been created') 
-            return redirect('main.index')
+            return redirect(url_for('main.index'))
              
     return render_template('auth/register.html')
 
