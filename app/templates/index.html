@@ -1,1 +1,14 @@
 {% extends 'base.html'%}
+{% block content %}
+<div class="blogs">
+    <h1 class="align-center"></h1>
+    {% for blog in blogs %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <a href="/blog/{{blog.user.username}}">{{blog.user.username}}</a>
+        </div>
+    </div>
+    {% endfor%}
+</div>
+
+{% endblock %}
