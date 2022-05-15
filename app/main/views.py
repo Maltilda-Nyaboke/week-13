@@ -7,13 +7,16 @@ from ..models import User
 
 
 @main.route('/')
+@login_required
 def index():
     return render_template('index.html',user= current_user)
 
 @main.route('/new_blog <id>',methods=['POST', 'GET']) 
 @login_required
 def new_blog(id): 
-    return render_template('new_blog.html') 
+    if request.method == 'POST':
+        text=request.form.get('text')
+    return render_template('blog.html',user= current_user) 
 
 
   
