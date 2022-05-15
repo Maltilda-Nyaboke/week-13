@@ -2,7 +2,7 @@ from flask import render_template,request,redirect,url_for,abort
 from . import main
 from .. import db
 from flask_login import login_required,current_user
-from ..models import User
+from ..models import Blog, User
 
 
 
@@ -15,7 +15,10 @@ def index():
 @login_required
 def new_blog(id): 
     if request.method == 'POST':
-        text=request.form.get('text')
+        blog=request.form.get('blog')
+        blog = Blog(blog=blog,writer=current_user.id)
+        db.session.add(blog)
+        db.session.commit()
     return render_template('blog.html',user= current_user) 
 
 
