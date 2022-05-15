@@ -10,18 +10,21 @@ from ..models import User
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form.get('email')
+        username = request.form.get('username')
         password = request.form.get('password')
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(username=username).first()
         if user: 
             if check_password_hash(user.password,password):
                flash('logged in successfully', category='success') 
                login_user(user,remember=True)
+               return redirect(url_for('main.index'))
             else:
                 flash('password is incorrect', category='error') 
         else:
-            flash('Invalid username or Password', category='error')
-    return render_template('auth/login.html')  
+            flash('user does not exist', category='error')
+            
+
+    return render_template('auth/login.html',user = current_user)  
 
 
 
@@ -41,14 +44,14 @@ def register():
         elif password1 != password2:
             flash('passwords don\'t match',category ='error') 
         else: 
-            new_user = User(email=email,username=username,password=password1)   
+            new_user = User(email=email,username=username,password=generate_password_hash(password1,method='sha256'))   
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user,remember=True)  
             flash('user has been created') 
             return redirect(url_for('main.index'))
              
-    return render_template('auth/register.html')
+    return render_template('auth/register.html',user= current_user)
 
 @auth.route('/')
 @login_required
