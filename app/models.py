@@ -13,6 +13,8 @@ class User(UserMixin,db.Model):
     email = db.Column(db.String(255),nullable=False,unique=True)
     password = db.Column(db.String(255),nullable=False,unique=True)
     profile_pic_path = db.Column(db.String())
+    blogs = db.relationship('Blog', backref='users',passive_deletes= True,lazy = 'dynamic')
+    
 
     
     def save_user(self):
@@ -28,5 +30,9 @@ class User(UserMixin,db.Model):
         return f'User {self.username}'
 
 class Blog(db.Model):
+    id = db.Column(db.Integer,primary_key = True)
+    blog = db.Column(db.Text(255),nullable=False)
+    writer = db.Column(db.Integer,db.ForeignKey('users.id',ondelete="CASCADE"),nullable=False)
+
 
 
