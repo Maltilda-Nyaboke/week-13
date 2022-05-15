@@ -3,16 +3,17 @@
 <div class="blogs">
     <h1 class="align-center"></h1>
     {% for blog in blogs %}
-    {% if user.id ==blog.writer %}
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <a href="/blog_display/{{blog.user.username}}">{{blog.user.username}}</a>
-            <a href="/delete_blog/{{blog.id}}">{{blog.user.username</a><button type="button" class="btn btn-sm btn-primary">Delete</button>
+            {% if user.id ==blog.writer %}
+            <a href="/delete_blog/{{blog.id}}"><button type="button" class="btn btn-sm btn-primary">Delete</button></a>
         </div>
+        {% endif %}
         <div class="card-body">{{blog.blog}}</div>
         <div class="card-footer text-muted"></div>
     </div>
-    {% endfor%}
+    <br/>{% endfor%}
 </div>
 
 {% endblock %}

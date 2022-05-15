@@ -22,6 +22,11 @@ def new_blog(id):
         db.session.commit()
         return redirect(url_for(')main.index'))
     return render_template('blog.html',user= current_user) 
-
+@main.route('/delete_blog/<id>')
+@login_required
+def delete_blog(id):
+    blog=blog.query.filter_by(id=id).first()
+    db.session.delete(blog)
+    db.session.commit()
 
   
