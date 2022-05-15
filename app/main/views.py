@@ -26,7 +26,8 @@ def new_blog(id):
 @login_required
 def delete_blog(id):
     blog=blog.query.filter_by(id=id).first()
-    db.session.delete(blog)
-    db.session.commit()
+    if current_user.id == blog.id:
+        db.session.delete(blog)
+        db.session.commit()
 
   
