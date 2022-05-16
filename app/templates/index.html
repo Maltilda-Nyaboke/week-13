@@ -11,6 +11,10 @@
         </div>
         {% endif %}
         <div class="card-body">{{blog.blog}}</div>
+        {% for comment in blog.comment %}
+        {{comment.comment}}
+        {% endfor %}
+        <br />
         <form action="/create_comment/{{blog.id}}"  method="POST"class="input-group mb-3">
             <input type="text" name="text" id="text"class="form-control"placeholder="comment something">
             <button type="submit" class="btn btn-lg-primary">Comment</button>
