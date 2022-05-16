@@ -49,6 +49,16 @@ def create_comment(blog_id):
         db.session.add(comment)
         db.session.commit() 
     return redirect(url_for('main.index'))
+
+@main.route('/delete_comment/<comment_id>')  
+@login_required
+def delete_comment(comment_id):
+    comment = Comment.query.filter_by(id=comment_id).first()
+    if comment:
+        current_user.id == comment.writer and current_user.id == comment.blog.writer
+        db.session.delete(comment)
+        db.session.commit()
+    return redirect(url_for('main.index'))  
        
 
   
