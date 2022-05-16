@@ -12,7 +12,7 @@ A web application that allows users to write,post,read, comment and delete blogs
 - Github
 - Flask(0.12.2)
 - Pip
-- Python 3.8
+- Python 3.9
 
 ## Setup Installation
 
@@ -22,7 +22,7 @@ A web application that allows users to write,post,read, comment and delete blogs
 - Run the following command to start the server using virtual environment
 
 ```
-python3.8 -m venv --without-pip virtual
+python3.9 -m venv --without-pip virtual
 ```
 
 - To activate the virtual environment
