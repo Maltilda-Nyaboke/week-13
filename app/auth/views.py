@@ -1,7 +1,6 @@
 from flask import render_template,redirect, url_for,flash,request
 from flask_login import login_user,logout_user,login_required,current_user
 from werkzeug.security import generate_password_hash,check_password_hash
-
 from ..import db
 from .import auth
 from ..models import User
@@ -18,13 +17,13 @@ def login():
             if check_password_hash(user.password, password):
                 flash("Logged in!", category='success')
                 login_user(user, remember=True)
-                return redirect(url_for('views.home'))
+                return redirect(url_for('main.index'))
             else:
                 flash('Password is incorrect.', category='error')
         else:
             flash('Email does not exist.', category='error')
 
-    return render_template("auth/login.html")
+    return render_template('auth/login.html')
 
 
 @auth.route("/register", methods=['GET', 'POST'])

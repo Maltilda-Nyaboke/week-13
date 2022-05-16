@@ -1,5 +1,5 @@
-{% extend 'base.html' %}
-
+{% extends 'base.html' %}
+{% block content %}
 <h1 class="align-center">Make a blog</h1>
 <form method="POST">
     <textarea name="blog" id="blog" class="form-control"></textarea>
@@ -9,6 +9,7 @@
     </div>
 
     <div class="align-center">
-        <a href="/index"><button type="submit" class="btn btn-lg-primary">Back</button></a>
+        <a href="{{ url_for('main.index') }}"><button type="submit" class="btn btn-lg-primary">Back</button></a>
     </div>
 </form>
+{% endblock %}
