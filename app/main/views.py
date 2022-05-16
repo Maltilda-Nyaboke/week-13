@@ -32,10 +32,11 @@ def new_blog():
 @main.route('/delete_blog/<id>')
 @login_required
 def delete_blog(id):
-    blog=blog.query.filter_by(id=id).first()
+    blog= Blog.query.filter_by(id=id).first()
     if current_user.id == blog.id:
         db.session.delete(blog)
         db.session.commit()
+        return redirect(url_for('main.index)'))
 
 @main.route('/blogs/<username>')
 @login_required
@@ -49,10 +50,10 @@ def blogs(username):
 @main.route('/create_comment/<blog_id>',methods=['POST'])  
 @login_required
 def create_comment(blog_id):
-    text = request.form.get('text')
+    comment = request.form.get('comment')
     blog = Blog.query.filter_by(id = blog_id)
     if blog:
-        comment = Comment(text=text,writer = current_user.id ,blog_id=blog_id) 
+        comment = Comment(comment=comment,writer = current_user.id ,blog_id=blog_id) 
         db.session.add(comment)
         db.session.commit() 
     return redirect(url_for('main.index'))
