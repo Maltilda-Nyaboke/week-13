@@ -14,6 +14,8 @@ class User(UserMixin,db.Model):
     password = db.Column(db.String(255),nullable=False,unique=True)
     profile_pic_path = db.Column(db.String())
     blogs = db.relationship('Blog', backref='users',passive_deletes= True,lazy = 'dynamic')
+    comments = db.relationship('Comment', backref='users',passive_deletes= True,lazy = 'dynamic')
+
     
 
     
@@ -33,8 +35,16 @@ class Blog(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     blog = db.Column(db.String(255))
     writer = db.Column(db.Integer,db.ForeignKey('users.id',ondelete="CASCADE"),nullable=False)
+    comments = db.relationship('Comment', backref='blogs',passive_deletes= True,lazy = 'dynamic')
 
-class Comment(db.Model):    
+
+class Comment(db.Model): 
+    id = db.Column(db.Integer,primary_key = True)
+    comment = db.Column(db.String(255))
+    writer = db.Column(db.Integer,db.ForeignKey('users.id',ondelete="CASCADE"),nullable=False)
+    blog_id= db.Column(db.Integer,db.ForeignKey('blogs.id',ondelete="CASCADE"),nullable=False)
+
+   
 
 
 
