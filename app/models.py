@@ -34,5 +34,7 @@ class Blog(db.Model):
     blog = db.Column(db.String(255))
     writer = db.Column(db.Integer,db.ForeignKey('users.id',ondelete="CASCADE"),nullable=False)
 
+class Comment(db.Model):    
+
 
 
