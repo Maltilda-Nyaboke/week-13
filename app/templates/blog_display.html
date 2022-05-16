@@ -1,5 +1,38 @@
+{% extends 'base.html'%}
+{% block content %}
+<div class="blogs">
+    <h1 class="align-center"></h1>
+    {% for blog in blogs %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <a href="/blog_display/{{blog.user.username}}">{{blog.user.username}}</a>
+            {% if user.id == blog.writer %}
+            <a href="/delete_blog/{{blog.id}}"><button type="button" class="btn btn-sm btn-primary">Delete</button></a>
+        </div>
+        {% endif %}
+        <div class="card-body">{{blog.blog}}</div>
+        {% for comment in blog.comment %}
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="/blogs/{{comment.user.username}}">{{comment.user.username}}</a>{{comment.comment}}
+        </div>
+        <div>
+            {%if user.id == comment.writer or user.id == blog.writer%}
+            <a href="/delete_comment/{{comment.id}}"><button type="button" class="btn btn-sm btn-primary">Delete</button></a>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <br />
+        <form action="/create_comment/{{blog.id}}"  method="POST"class="input-group mb-3">
+            <input type="text" name="comment" id="comment"class="form-control"placeholder="comment something">
+            <button type="submit" class="btn btn-lg-primary">Comment</button>
+        </form>
+        <div class="card-footer text-muted"></div>
+    </div>
+    <br/>{% endfor%}
+    <div class = "align-center">
+        <a href="{{ url_for('main.new_blog') }}"><button type="button" class="btn btn-sm btn-primary">Create a blog</button></a>
 
-{% extends 'index.html' %}
+    </div>
+</div>
 
-<h1>{{username}}'s blogs</h1>
-<a href="/index"><button type="submit" class="btn btn-lg-primary">Back</button></a>
+{% endblock %}
