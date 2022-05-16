@@ -7,51 +7,57 @@ from .import auth
 from ..models import User
 
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        user = User.query.filter_by(username=username).first()
-        if user: 
-            if check_password_hash(user.password,password):
-               flash('logged in successfully', category='success') 
-               login_user(user,remember=True)
-               
-        return redirect(url_for('main.index'))
-    
+        email = request.form.get("email")
+        password = request.form.get("password")
 
-    return render_template('auth/login.html',user = current_user)  
+        user = User.query.filter_by(email=email).first()
+        if user:
+            if check_password_hash(user.password, password):
+                flash("Logged in!", category='success')
+                login_user(user, remember=True)
+                return redirect(url_for('views.home'))
+            else:
+                flash('Password is incorrect.', category='error')
+        else:
+            flash('Email does not exist.', category='error')
+
+    return render_template("auth.login")
 
 
-
-@auth.route('/register',methods = ['GET','POST'])
-def register():
+@auth.route("/sign-up", methods=['GET', 'POST'])
+def sign_up():
     if request.method == 'POST':
-        email = request.form.get('email')
-        username = request.form.get('username')
-        password1 = request.form.get('password1')
-        password2 = request.form.get('password2')
-        email_exists= User.query.filter_by(email=email).first()
-        username_exists =User.query.filter_by(username=username).first() 
+        email = request.form.get("email")
+        username = request.form.get("username")
+        password1 = request.form.get("password1")
+        password2 = request.form.get("password2")
+
+        email_exists = User.query.filter_by(email=email).first()
+        username_exists = User.query.filter_by(username=username).first()
+
         if email_exists:
-            flash('User with this email already exists',category = 'error')
+            flash('Email is already in use.', category='error')
         elif username_exists:
-            flash('User with this username already exists',category ='error')
+            flash('Username is already in use.', category='error')
         elif password1 != password2:
-            flash('passwords don\'t match',category ='error') 
-        else: 
-            new_user = User(email=email,username=username,password=generate_password_hash(password1,method='sha256'))   
+            flash('Password don\'t match!', category='error')
+        else:
+            new_user = User(email=email, username=username, password=generate_password_hash(
+                password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
-            login_user(new_user,remember=True)  
-            flash('user has been created') 
+            login_user(new_user, remember=True)
+            flash('User created!')
             return redirect(url_for('main.index'))
-             
-    return render_template('auth/register.html',user= current_user)
 
-@auth.route('/')
+    return render_template("auth.register")
+
+
+@auth.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return render_template('main.index')
+    return redirect(url_for("main.index"))

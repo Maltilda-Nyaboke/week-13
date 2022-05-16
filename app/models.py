@@ -1,7 +1,6 @@
 from .import db
 from . import login_manager
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash,check_password_hash
 
 
 @login_manager.user_loader
@@ -18,30 +17,6 @@ class User(UserMixin,db.Model):
     blogs = db.relationship('Blog', backref='users',passive_deletes= True,lazy = 'dynamic')
     comments = db.relationship('Comment', backref='users',passive_deletes= True,lazy = 'dynamic')
 
-    
-    @property
-    def password(self):
-        raise AttributeError('You cannot read the password attribute')
-
-    @password.setter
-    def password(self,password):
-        self.password = generate_password_hash(password) 
-
-    def verify_password(self,password):
-        return check_password_hash(self.password,password)      
-
-    
-    def save_user(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def delete_user(self):
-        db.session.delete(self)
-        db.session.commit()
-
-
-    def __repr__(self):
-        return f'User {self.username}'
 
 class Blog(db.Model):
     __tablename__ = 'blogs'
