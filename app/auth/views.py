@@ -1,42 +1,57 @@
 from flask import render_template,redirect, url_for,flash,request
 from flask_login import login_user,logout_user,login_required,current_user
 from werkzeug.security import generate_password_hash,check_password_hash
-from .forms import RegistrationForm,LoginForm
+
 from ..import db
 from .import auth
 from ..models import User
 
 
-@auth.route('/register',methods = ["GET","POST"])
-def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(email = form.email.data, username = form.username.data,password = form.password.data)  
-        db.session.add(user)
-        db.session.commit()
-
-        return redirect(url_for('auth.login')) 
-    return render_template('auth/register.html',registration_form =form) 
-
-
-
-@auth.route('/login',methods = ['GET', 'POST'])
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
-    login_form = LoginForm()
-    if login_form.validate_on_submit():
-        user = User.query.filter_by(email = login_form.email.data).first()
-        if user is not None and user.verify_password(login_form.password.data):
-            login_user(user,login_form.remember.data)
-            return redirect(request.args.get('next') or url_for('main.index'))
-        
-        flash('Invalid username or Password')
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        user = User.query.filter_by(username=username).first()
+        if user: 
+            if check_password_hash(user.password,password):
+               flash('logged in successfully', category='success') 
+               login_user(user,remember=True)
+               
+        return redirect(url_for('main.index'))
     
-    return render_template('auth/login.html',login_form=login_form)
+
+    return render_template('auth/login.html',user = current_user)  
 
 
 
-@auth.route('/logout')
+@auth.route('/register',methods = ['GET','POST'])
+def register():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        username = request.form.get('username')
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
+        email_exists= User.query.filter_by(email=email).first()
+        username_exists =User.query.filter_by(username=username).first() 
+        if email_exists:
+            flash('User with this email already exists',category = 'error')
+        elif username_exists:
+            flash('User with this username already exists',category ='error')
+        elif password1 != password2:
+            flash('passwords don\'t match',category ='error') 
+        else: 
+            new_user = User(email=email,username=username,password=generate_password_hash(password1,method='sha256'))   
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user,remember=True)  
+            flash('user has been created') 
+            return redirect(url_for('main.index'))
+             
+    return render_template('auth/register.html',user= current_user)
+
+@auth.route('/')
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("main.index"))
+    return render_template('main.index')
