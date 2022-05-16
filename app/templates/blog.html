@@ -1,4 +1,9 @@
 {% extends 'blog_display.html' %}
 
 <h1>{{username}}'s blogs</h1>
-<a href="/index"><button type="submit" class="btn btn-lg-primary">Back</button></a>
+{% block footer %}
+<div class="align-center">
+  <a href="/index"><button type="button" class="btn btn-primary btn-lg">Back</button></a
+  >
+</div>
+{% endblock %}
