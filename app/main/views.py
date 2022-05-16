@@ -27,7 +27,7 @@ def new_blog():
             flash('blog created!', category='success')
             return redirect(url_for('main.index'))
 
-    return render_template('blog.html', user = current_user)
+    return render_template('new_blog.html', user = current_user)
 
 @main.route('/delete_blog/<id>')
 @login_required
@@ -49,7 +49,7 @@ def delete_blog(id):
 @login_required
 def blogs(username): 
     user = User.query.filter_by(username=username).first()
-    blogs= user.blogs
+    blogs = Blog.query.filter_by(writer=user.id).all()
 
     return render_template('blog_display.html',user= current_user,blogs=blogs,username=username)
 
