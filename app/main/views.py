@@ -32,11 +32,18 @@ def new_blog():
 @main.route('/delete_blog/<id>')
 @login_required
 def delete_blog(id):
-    blog= Blog.query.filter_by(id=id).first()
-    if current_user.id == blog.id:
+    blog = Blog.query.filter_by(id=id).first()
+    if not blog:
+        flash("Blog does not exist.", category='error')
+    elif current_user.id != blog.id:
+        flash('You do not have permission to delete this post.', category='error')
+    else:
         db.session.delete(blog)
         db.session.commit()
-        return redirect(url_for('main.index)'))
+        flash('Blog deleted.', category='success')
+
+    return redirect(url_for('main.index'))
+
 
 @main.route('/blogs/<username>')
 @login_required

@@ -6,7 +6,7 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <a href="/blog_display/{{blog.user.username}}">{{blog.user.username}}</a>
-            {% if user.id ==blog.writer %}
+            {% if user.id == blog.writer %}
             <a href="/delete_blog/{{blog.id}}"><button type="button" class="btn btn-sm btn-primary">Delete</button></a>
         </div>
         {% endif %}

@@ -23,19 +23,7 @@ class Blog(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     blog = db.Column(db.String(255))
     writer = db.Column(db.Integer,db.ForeignKey('users.id',ondelete="CASCADE"),nullable=False)
-    comments = db.relationship('Comment', backref='blogs',passive_deletes= True,lazy = 'dynamic')
-
-    def save_blog(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def delete_blog(self):
-        db.session.delete(self)
-        db.session.commit()
-
-
-    def __repr__(self):
-        return f'User {self.blog}'
+    comments = db.relationship('Comment', backref='blog',passive_deletes= True,lazy = 'dynamic')
 
 
 class Comment(db.Model): 
