@@ -45,14 +45,17 @@ def delete_blog(id):
     return redirect(url_for('main.index'))
 
 
-@main.route('/blogs/<username>')
+@main.route("/blogs/<username>")
 @login_required
-def blogs(username): 
+def blogs(username):
     user = User.query.filter_by(username=username).first()
+
+    if not user:
+        flash('No user with that username exists.', category='error')
+        return redirect(url_for('main.index'))
+
     blogs = Blog.query.filter_by(writer=user.id).all()
-
-    return render_template('blog.html',user= current_user,blogs=blogs,username=username)
-
+    return render_template("blog.html", user=current_user, blogs=blogs, username=username)
 
 @main.route('/create_comment/<blog_id>',methods=['POST'])  
 @login_required

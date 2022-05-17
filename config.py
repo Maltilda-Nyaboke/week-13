@@ -11,7 +11,10 @@ class ProdConfig(Config):
     pass
 
 class DevConfig(Config):
-    DEBUG = True
+    '''
+    Class representing the configuration
+    '''
+DEBUG = True
 
 
 config_options = {
